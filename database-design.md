@@ -7,6 +7,7 @@
 - email
 - password
 - created_at
+- updated_at
 
 ## Projects
 
@@ -15,6 +16,7 @@
 - description
 - owner_id
 - created_at
+- updated_at
 
 ## Tasks
 
@@ -22,5 +24,7 @@
 - title
 - description
 - status
+- priority
 - project_id
 - created_at
+- updated_at
