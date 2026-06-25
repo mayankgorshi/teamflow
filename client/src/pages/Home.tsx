@@ -1,23 +1,17 @@
-import Navbar from "../components/Navbar";
+import Layout from "../layouts/Layout";
 import Hero from "../components/Hero";
 import Features from "../components/Features";
-import Footer from "../components/Footer";
+
 
 function Home() {
     return (
         <>
-            <div>
-                <h1>Teamflow</h1>
-                <p>Manage Projects, Track Tasks. Ship Faster. </p>
-            </div>
-            
-
-            <Navbar />
-            <Hero />
-            <Features />
-            <Footer />
+            <Layout>
+                <Hero />
+                <Features />
+            </Layout>
         </>
 
     );
 }
-export default Home ;
+export default Home;

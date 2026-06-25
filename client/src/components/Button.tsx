@@ -1,17 +1,15 @@
 type ButtonProps = {
     text: string;
-    color: string;
-    size: string
+    color?: string;
+    size?: string;
+    onClick?: () => void;
 };
 
-function Button({ text, color, size }: ButtonProps) {
+function Button({ text, color, size, onClick }: ButtonProps) {
     return (
-        <button
-            onClick={() => {
-                alert(text)
-            }}>
+        <button onClick={onClick}>
             {text} - {color} - {size}
-        </button >
+        </button>
     );
 }
 
