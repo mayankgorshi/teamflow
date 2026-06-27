@@ -1,6 +1,8 @@
 import Layout from "../layouts/Layout";
-import Hero from "../components/Hero";
-import Features from "../components/Features";
+import Hero from "../components/home/Hero";
+import Features from "../components/home/Features";
+import WhyChooseUs from "../components/Whychooseus";
+import CTA from "../components/CTA";
 
 
 function Home() {
@@ -9,6 +11,8 @@ function Home() {
             <Layout>
                 <Hero />
                 <Features />
+                <WhyChooseUs/>
+                <CTA />
             </Layout>
         </>
 
