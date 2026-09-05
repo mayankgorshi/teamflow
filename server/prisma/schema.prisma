@@ -1,0 +1,121 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ==============================
+// USER
+// ==============================
+
+model user {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  projects       project[]
+  projectMembers projectMember[]
+
+  conversationsStarted  conversation[] @relation("ConversationUser1")
+  conversationsReceived conversation[] @relation("ConversationUser2")
+
+  messages message[]
+}
+
+// ==============================
+// PROJECT
+// ==============================
+
+model project {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  status      String  @default("ACTIVE")
+
+  ownerId String
+  owner   user   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  tasks          task[]
+  projectMembers projectMember[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ==============================
+// PROJECT MEMBER
+// ==============================
+
+model projectMember {
+  id        String @id @default(cuid())
+  userId    String
+  projectId String
+
+  user    user    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, projectId])
+}
+
+// ==============================
+// TASK
+// ==============================
+
+model task {
+  id          String  @id @default(cuid())
+  title       String
+  description String?
+  completed   Boolean @default(false)
+
+  projectId String
+  project   project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ==============================
+// UNIVERSAL CHAT
+// ==============================
+
+model conversation {
+  id String @id @default(cuid())
+
+  user1Id String
+  user2Id String
+
+  user1 user @relation("ConversationUser1", fields: [user1Id], references: [id], onDelete: Cascade)
+  user2 user @relation("ConversationUser2", fields: [user2Id], references: [id], onDelete: Cascade)
+
+  messages message[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([user1Id, user2Id])
+}
+
+// ==============================
+// MESSAGE
+// ==============================
+
+model message {
+  id String @id @default(cuid())
+
+  conversationId String
+  senderId       String
+
+  content String
+
+  conversation conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender       user         @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+}
